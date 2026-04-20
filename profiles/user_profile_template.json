@@ -1,0 +1,25 @@
+{
+  "dietary_restrictions": "vegetarian, gluten-free",
+  "allergies": "nuts",
+  "health_goals": "weight loss, muscle gain, balanced nutrition",
+  "calorie_target": 2000,
+  "protein_target": 150,
+  "carb_target": 200,
+  "fat_target": 67,
+  "pantry_items": [
+    "chicken breast",
+    "brown rice",
+    "quinoa",
+    "eggs",
+    "broccoli",
+    "spinach",
+    "sweet potato",
+    "olive oil",
+    "garlic",
+    "onions",
+    "tomatoes",
+    "carrots"
+  ],
+  "meal_count": 7,
+  "cuisine_preferences": "Mediterranean, Asian, Italian"
+}

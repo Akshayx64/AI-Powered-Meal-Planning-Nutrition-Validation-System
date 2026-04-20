@@ -1,0 +1,28 @@
+{
+  "dietary_restrictions": "low-carbs, high-protein",
+  "allergies": "none",
+  "health_goals": "weight loss, improved energy, balanced nutrition",
+  "calorie_target": 1800,
+  "protein_target": 120,
+  "carb_target": 100,
+  "fat_target": 70,
+  "pantry_items": [
+    "eggs",
+    "quinoa",
+    "brown rice",
+    "sweet potato",
+    "broccoli",
+    "spinach",
+    "tomatoes",
+    "carrots",
+    "bell peppers",
+    "olive oil",
+    "garlic",
+    "onions",
+    "black beans",
+    "chickpeas",
+    "avocado"
+  ],
+  "meal_count": 7,
+  "cuisine_preferences": "Mediterranean, Asian, Mexican"
+}

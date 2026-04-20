@@ -1,0 +1,376 @@
+# Task Configurations for Diet & Meal Planning System
+# Tasks are executed sequentially, with outputs feeding into subsequent tasks
+
+pantry_analysis_task:
+  description: >
+    Analyze the user's pantry inventory: {pantry_items}
+    
+    Your analysis should:
+    1. Categorize all ingredients by type (proteins, vegetables, grains, etc.)
+    2. Identify ingredients that are versatile and can be used in multiple recipes
+    3. Flag any ingredients that should be prioritized (expiring soon, etc.)
+    4. Suggest 3-5 recipe types that would make good use of available ingredients
+    5. Calculate approximately what percentage of typical recipes can be covered by pantry items
+    
+    User dietary information:
+    - Restrictions: {dietary_restrictions}
+    - Allergies: {allergies}
+    - Preferences: {cuisine_preferences}
+    
+    Be thorough and creative in identifying ingredient combinations.
+  expected_output: >
+    A structured analysis in JSON format containing:
+    - Categorized ingredient list
+    - Versatility ratings for each ingredient
+    - Priority ingredients list
+    - Recipe type suggestions (5-7 ideas)
+    - Estimated pantry coverage percentage
+    - Recommendations for pantry optimization
+  agent: pantry_analyzer
+
+recipe_generation_task:
+  description: >
+    Create diverse, practical recipes for {meal_count} days of meals based on:
+    
+    User Profile:
+    - Dietary Restrictions: {dietary_restrictions}
+    - Allergies: {allergies}
+    - Health Goals: {health_goals}
+    - Daily Calorie Target: {calorie_target} calories
+    - Daily Protein Target: {protein_target}g
+    - Daily Carb Target: {carb_target}g
+    - Daily Fat Target: {fat_target}g
+    - Cuisine Preferences: {cuisine_preferences}
+    
+    Available Pantry Items: {pantry_items}
+    
+    RECIPE GUIDELINES:
+    1. Generate {meal_count} days of meals (breakfast, lunch, dinner only - NO snacks)
+       - Create different recipes for each day
+       - Keep recipes SIMPLE with 3-5 ingredients each
+       - Focus on recipes that match the user's nutritional targets
+    
+    2. NUTRITIONAL BALANCE:
+       - Design meals to collectively meet daily targets: {calorie_target} cal, {protein_target}g protein, {carb_target}g carbs, {fat_target}g fat
+       - Distribute macros appropriately across meals
+    
+    3. DIETARY COMPLIANCE:
+       - Strictly follow dietary restrictions: {dietary_restrictions}
+       - Avoid all allergens: {allergies}
+       - Match cuisine preferences: {cuisine_preferences}
+    
+    4. SIMPLICITY REQUIREMENTS (IMPORTANT):
+       - Each recipe: MAX 5 ingredients, 3-4 steps
+       - Use pantry ingredients where practical
+       - Keep instructions brief and clear
+       - Use simple cooking methods
+    
+    5. OUTPUT FORMAT:
+       - Write concise, structured recipes
+       - DO NOT write code or functions
+       - Keep descriptions brief (1-2 sentences max)
+    
+    KEEP IT SIMPLE - Quality over quantity.
+  expected_output: >
+    A compact list of {meal_count} days worth of simple recipes in clean JSON format.
+    
+    Each recipe must contain:
+    - Recipe name and description
+    - Ingredient list with quantities
+    - Clear cooking instructions (3-5 steps)
+    - Nutritional estimates (calories, protein, carbs, fat)
+    - Meal type, servings, prep/cook time
+    - Relevant tags (vegetarian, gluten-free, etc.)
+    
+    OUTPUT FORMAT RULES:
+    - Provide ONLY the final recipe list - no thinking process, no analysis notes
+    - Do NOT include phrases like "Lines omitted", "Self-correction", or "I will now"
+    - Do NOT show your reasoning or planning steps
+    - Output clean, structured recipe data ready for use
+  agent: recipe_creator
+  context:
+    - pantry_analysis_task
+
+recipe_validation_task:
+  description: >
+    Provide a quality assessment and scoring for the generated recipes.
+    
+    === USER REQUIREMENTS ===
+    Dietary Restrictions: {dietary_restrictions}
+    Allergens to Avoid: {allergies}
+    Health Goals: {health_goals}
+    
+    EVALUATION CRITERIA (score each 0-10):
+    
+    1. DIETARY COMPLIANCE SCORE:
+       - Check adherence to dietary restrictions: {dietary_restrictions}
+       - Check allergen avoidance: {allergies}
+       - Note any violations found (but don't reject - just document)
+    
+    2. NUTRITIONAL QUALITY SCORE:
+       - Balance of macronutrients
+       - Alignment with health goals: {health_goals}
+       - Calorie and protein targets appropriateness
+    
+    3. VARIETY SCORE:
+       - Recipe diversity across meals
+       - Different cooking methods and cuisines
+       - Note any excessive repetition
+    
+    4. PRACTICALITY SCORE:
+       - Recipe complexity and time requirements
+       - Ingredient availability
+       - Realistic for home cooking
+    
+    PROVIDE RECOMMENDATIONS:
+    - What's working well
+    - Suggested improvements for user consideration
+    - Any concerns about dietary compliance (informational only)
+    - Tips for better nutritional balance
+    
+    This is an INFORMATIONAL report - not a pass/fail gate. Users will review and decide.
+  expected_output: >
+    A comprehensive quality report in Markdown format:
+    
+    ## Recipe Quality Assessment
+    
+    ### Scores (0-10 scale)
+    - Dietary Compliance: X/10 (note any issues)
+    - Nutritional Quality: X/10
+    - Variety & Diversity: X/10
+    - Practicality: X/10
+    - **Overall Score: X/10**
+    
+    ### Strengths
+    - List positive aspects
+    
+    ### Areas for Improvement
+    - Suggestions for user consideration
+    
+    ### Dietary & Allergen Notes
+    - Any compliance concerns (if found)
+    
+    ### Recommendations
+    - Actionable suggestions for optimization
+    
+    This assessment is provided for user information and discretion.
+    
+    OUTPUT FORMAT RULES:
+    - Provide ONLY the assessment report - no thinking process or meta-commentary
+    - Do NOT include internal reasoning, planning notes, or self-corrections
+    - Output clean, professional Markdown formatted for end users
+  agent: nutritionist_advisor
+  context:
+    - recipe_generation_task
+
+meal_plan_organization_task:
+  description: >
+    Organize the validated recipes into a practical weekly meal plan for {meal_count} days.
+    
+    USER'S DAILY NUTRITIONAL TARGETS:
+    - Calories: {calorie_target} calories (aim within ±100-150 cal)
+    - Protein: {protein_target}g (aim within ±10g)
+    - Carbs: {carb_target}g (aim within ±15g)
+    - Fat: {fat_target}g (aim within ±10g)
+    
+    These targets come from the user's profile and dietary approach. Follow them precisely.
+    
+    MEAL PLANNING APPROACH:
+    1. Assign recipes to days (breakfast, lunch, dinner)
+    2. Add 1-2 snacks per day if needed to meet protein/calorie goals
+       Snack ideas: Greek yogurt, nuts, protein shake, hummus & veggies, fruit, etc.
+    3. Try to get close to nutritional targets, but perfection isn't required
+    4. Some recipe repetition across the week is fine and practical
+    5. Focus on creating a realistic, sustainable meal plan
+    
+    OUTPUT FORMAT FOR EACH DAY:
+    ```
+    **Day X:**
+    
+    Breakfast: [Recipe Name]
+    - Nutrition: Calories, Protein, Carbs, Fat
+    
+    Lunch: [Recipe Name]
+    - Nutrition: Calories, Protein, Carbs, Fat
+    
+    Dinner: [Recipe Name]
+    - Nutrition: Calories, Protein, Carbs, Fat
+    
+    Snacks: [1-2 snacks if needed]
+    - Nutrition: Calories, Protein, Carbs, Fat
+    
+    **Day Total:** ~XXXX calories, XXg protein, XXg carbs, XXg fat
+    ```
+    
+    User preferences to consider:
+    - Dietary restrictions: {dietary_restrictions}
+    - Health goals: {health_goals}
+    - Cuisine preferences: {cuisine_preferences}
+    
+    Aim for good variety and balanced nutrition, but keep it practical and achievable.
+  expected_output: >
+    A complete weekly meal plan in clean, well-organized Markdown containing:
+    - Day-by-day meal schedule (7 days)
+    - Each day includes breakfast, lunch, and dinner with full recipe details
+    - Daily nutritional summaries
+    - Weekly nutritional totals and averages
+    - Adherence percentages to nutritional goals
+    - Meal prep tips and notes
+    - Variety score and dietary compliance confirmation
+    
+    OUTPUT FORMAT RULES:
+    - Provide ONLY the final meal plan - no thinking process, no analysis commentary
+    - Do NOT include phrases like "Lines omitted", "Self-correction", "I understand my role"
+    - Do NOT show calculations, reasoning steps, or internal planning
+    - Output clean, user-ready content formatted as Markdown
+  agent: meal_plan_coordinator
+  context:
+    - pantry_analysis_task
+    - recipe_generation_task
+    - recipe_validation_task
+  markdown: true
+  output_file: output/meal_plan.md
+
+shopping_list_task:
+  description: >
+    Generate a smart, categorized shopping list based on the meal plan.
+    
+    Instructions:
+    1. Extract ALL ingredients from the meal plan recipes
+    2. EXCLUDE ingredients already in the pantry: {pantry_items}
+    3. Aggregate quantities for ingredients used in multiple recipes
+    4. Organize items by store categories:
+       - Produce (fruits, vegetables)
+       - Meat & Seafood
+       - Dairy & Eggs
+       - Grains & Pasta
+       - Canned & Packaged
+       - Spices & Condiments
+       - Frozen Foods
+       - Bakery
+       - Other
+    5. Provide estimated prices based on average market costs
+    6. Mark high-priority items (needed for multiple recipes)
+    7. Add helpful shopping notes (seasonal items, substitution suggestions)
+    8. Calculate estimated total cost
+    
+    Make the list practical and easy to use in-store.
+  expected_output: >
+    A comprehensive shopping list in Markdown format containing:
+    - Items organized by store category
+    - Each item with: name, quantity, unit, estimated price
+    - Priority markers for important items
+    - Subtotals for each category
+    - Estimated total cost
+    - Shopping tips and notes
+    - Substitution suggestions where applicable
+    
+    Format should be printer-friendly and easy to check off while shopping.
+    
+    OUTPUT FORMAT RULES:
+    - Provide ONLY the final shopping list - no thinking process or analysis
+    - Do NOT include reasoning, calculations, or meta-commentary
+    - Output clean, printer-friendly Markdown ready for immediate use
+  agent: shopping_list_generator
+  context:
+    - pantry_analysis_task
+    - recipe_generation_task
+    - meal_plan_organization_task
+  markdown: true
+  output_file: output/shopping_list.md
+
+nutritional_analysis_task:
+  description: >
+    Provide expert nutritional analysis and recommendations for the complete meal plan.
+    This is an informational assessment to help users make informed decisions.
+    
+    Analyze:
+    1. Overall nutritional balance and adequacy
+    2. Macronutrient distribution (% carbs, protein, fat)
+    3. Micronutrient coverage (vitamins, minerals) - general assessment
+    4. Alignment with user's health goals: {health_goals}
+    5. Potential nutritional gaps or areas for improvement
+    6. Practical suggestions for optimization
+    
+    User targets (for reference):
+    - Calories: {calorie_target}/day
+    - Protein: {protein_target}g/day
+    - Carbs: {carb_target}g/day
+    - Fat: {fat_target}g/day
+    - Dietary restrictions: {dietary_restrictions}
+    
+    Focus on helpful, actionable insights rather than strict pass/fail criteria.
+    Users will consider recommendations based on their preferences.
+  expected_output: >
+    A comprehensive nutritional analysis report in Markdown containing:
+    
+    ## Nutritional Analysis & Recommendations
+    
+    ### Macronutrient Distribution
+    - Analysis of carbs/protein/fat ratios
+    - Comparison to user targets
+    
+    ### Nutritional Strengths
+    - What's working well in the plan
+    
+    ### Opportunities for Improvement
+    - Suggested adjustments (user discretion)
+    - Potential nutritional gaps
+    
+    ### Health Goals Alignment
+    - How plan supports goals: {health_goals}
+    
+    ### Practical Recommendations
+    - Easy modifications to consider
+    - Tips for better nutrition
+    
+    ### Educational Insights
+    - Relevant nutritional science
+    
+    **Note:** This is advisory information for user consideration, not mandatory requirements.
+    
+    OUTPUT FORMAT RULES:
+    - Provide ONLY the final analysis report - no thinking process or meta-analysis
+    - Do NOT include internal reasoning, calculations, or planning steps
+    - Output professional, clean Markdown ready for end users
+  agent: nutritionist_advisor
+  context:
+    - meal_plan_organization_task
+
+meal_prep_strategy_task:
+  description: >
+    Create a practical meal prep strategy and schedule for the weekly meal plan.
+    
+    Provide:
+    1. Batch cooking opportunities (recipes that can be prepared in advance)
+    2. Day-by-day prep schedule (what to do each day)
+    3. Storage guidelines for each prepared item
+    4. Reheating instructions that preserve quality
+    5. Time-saving tips and shortcuts
+    6. Kitchen organization recommendations
+    7. Food safety considerations
+    8. Equipment needed for efficient prep
+    
+    Make it realistic for a busy person to follow.
+  expected_output: >
+    A comprehensive meal prep guide in Markdown format containing:
+    - Weekly prep overview (total time required)
+    - Day-by-day prep schedule with time estimates
+    - Batch cooking recommendations
+    - Storage guidelines (containers, duration, temperature)
+    - Reheating instructions for each meal
+    - Time-saving tips and hacks
+    - Kitchen organization advice
+    - Food safety reminders
+    
+    Format should be easy to follow and actionable.
+    
+    OUTPUT FORMAT RULES:
+    - Provide ONLY the final meal prep guide - no thinking process or analysis
+    - Do NOT include internal reasoning, planning notes, or meta-commentary
+    - Output clean, actionable Markdown formatted for end users
+  agent: meal_prep_coach
+  context:
+    - meal_plan_organization_task
+  markdown: true
+  output_file: output/meal_prep_guide.md

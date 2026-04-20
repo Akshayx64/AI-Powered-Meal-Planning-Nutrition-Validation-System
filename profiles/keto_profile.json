@@ -1,0 +1,28 @@
+{
+  "dietary_restrictions": "low-carb, keto",
+  "allergies": "none",
+  "health_goals": "weight loss, mental clarity, blood sugar control",
+  "calorie_target": 2000,
+  "protein_target": 120,
+  "carb_target": 50,
+  "fat_target": 155,
+  "pantry_items": [
+    "chicken breast",
+    "salmon",
+    "eggs",
+    "bacon",
+    "avocado",
+    "spinach",
+    "broccoli",
+    "cauliflower",
+    "zucchini",
+    "cheese",
+    "butter",
+    "olive oil",
+    "coconut oil",
+    "almonds",
+    "cream cheese"
+  ],
+  "meal_count": 3,
+  "cuisine_preferences": "Mediterranean, American, Asian"
+}

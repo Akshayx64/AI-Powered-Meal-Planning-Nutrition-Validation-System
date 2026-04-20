@@ -1,0 +1,47 @@
+[tool.poetry]
+name = "diet-meal-planner"
+version = "1.0.0"
+description = "AI-Powered Personal Diet & Meal Planning Crew using CrewAI and ADK"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+crewai = {extras = ["tools"], version = "^0.95.0"}
+google-genai-agent-dev-kit = "^0.1.0"
+google-generativeai = "^0.8.0"
+pydantic = "^2.0.0"
+pydantic-settings = "^2.0.0"
+python-dotenv = "^1.0.0"
+httpx = "^0.27.0"
+aiohttp = "^3.9.0"
+requests = "^2.31.0"
+loguru = "^0.7.0"
+colorlog = "^6.8.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+pytest-asyncio = "^0.23.0"
+pytest-cov = "^4.1.0"
+black = "^24.0.0"
+ruff = "^0.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+run = "src.main:run"
+
+[tool.crewai]
+# CrewAI configuration
+project_name = "diet-meal-planner"
+crew_module = "src.main"
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

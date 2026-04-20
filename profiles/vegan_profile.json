@@ -1,0 +1,29 @@
+{
+  "dietary_restrictions": "vegan",
+  "allergies": "none",
+  "health_goals": "heart health, energy boost, weight management",
+  "calorie_target": 1800,
+  "protein_target": 100,
+  "carb_target": 220,
+  "fat_target": 60,
+  "pantry_items": [
+    "tofu",
+    "tempeh",
+    "brown rice",
+    "quinoa",
+    "lentils",
+    "chickpeas",
+    "black beans",
+    "spinach",
+    "kale",
+    "sweet potato",
+    "bell peppers",
+    "avocado",
+    "olive oil",
+    "nutritional yeast",
+    "almond milk",
+    "tahini"
+  ],
+  "meal_count": 7,
+  "cuisine_preferences": "Mediterranean, Middle Eastern, Asian"
+}

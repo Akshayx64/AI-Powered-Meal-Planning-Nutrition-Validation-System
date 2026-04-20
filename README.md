@@ -40,7 +40,7 @@ Pantry Input
 → Nutrition Validation (LLM)  
 → Final Output + Shopping List  
 
-The system uses **multiple specialized agents collaborating**, which is more effective than single-model systems for complex workflows :contentReference[oaicite:0]{index=0}.
+The system uses **multiple specialized agents collaborating**, which is more effective than single-model systems for complex workflows.
 
 ---
 

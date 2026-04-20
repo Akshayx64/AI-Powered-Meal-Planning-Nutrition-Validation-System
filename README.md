@@ -1,33 +1,83 @@
 # AI-Powered Personal Diet & Meal Planning Crew
 
-An intelligent multi-agent system that creates personalized meal plans based on your health profile, dietary restrictions, and available ingredients.
+An intelligent multi-agent system that creates personalized meal plans based on user inputs, pantry data, and nutritional constraints using LLM-based reasoning and API-driven workflows.
 
-## 🎯 Project Overview
+---
+
+## Problem
+
+Users often face challenges in:
+
+- Deciding what meals to prepare using available ingredients  
+- Ensuring meals meet nutritional goals (calories, macros)  
+- Managing dietary restrictions and preferences  
+- Reducing food waste while maintaining variety  
+
+Existing solutions are static, require manual effort, or lack integrated validation.
+
+---
+
+## Solution
+
+This project builds a **multi-agent AI system** that:
+
+- Analyzes pantry inputs  
+- Generates recipes using LLM reasoning  
+- Creates structured meal plans  
+- Validates nutritional compliance  
+- Produces shopping lists  
+
+The system simulates a real-world **AI product workflow** where multiple agents collaborate to automate decision-making.
+
+---
+
+## AI Workflow
+
+Pantry Input  
+→ Pantry Analyzer  
+→ Recipe Generation (LLM)  
+→ Meal Planning  
+→ Nutrition Validation (LLM)  
+→ Final Output + Shopping List  
+
+The system uses **multiple specialized agents collaborating**, which is more effective than single-model systems for complex workflows :contentReference[oaicite:0]{index=0}.
+
+---
+
+## Project Overview
 
 This project solves five critical problems:
-1. **Decision Fatigue**: Automates daily meal planning decisions
-2. **Health Goal Adherence**: Ensures meals align with nutritional targets
-3. **Food Waste**: Minimizes waste by using pantry ingredients
-4. **Cooking Monotony**: Generates creative, varied recipes
-5. **Time Consumption**: Streamlines planning, searching, and shopping
 
-## 🌟 Key Features
+1. Decision Fatigue: Automates daily meal planning  
+2. Health Goal Adherence: Ensures meals meet nutritional targets  
+3. Food Waste: Uses pantry ingredients efficiently  
+4. Cooking Variety: Generates diverse recipes  
+5. Time Efficiency: Reduces planning and searching effort  
 
-- **Deep Personalization**: Tailored to allergies, dietary needs, and preferences
-- **Nutritional Precision**: Enforces specific macro and calorie targets
-- **Pantry-Aware Planning**: Uses existing ingredients first
-- **Creative Recipe Generation**: Novel recipes beyond static databases
-- **Automated Shopping Lists**: Smart, categorized lists
-- **Holistic Plan Review**: Final validation for coherence and balance
+---
 
-## 🏗️ Architecture
+## Key Features
+
+- Deep personalization based on user profile  
+- Nutritional validation using AI reasoning  
+- Pantry-aware recommendations  
+- Automated shopping list generation  
+- End-to-end workflow automation  
+
+---
+
+## Architecture
 
 This project implements a hybrid multi-agent architecture using:
 
-- **CrewAI**: Primary framework for meal planning workflow (4 agents)
-- **ADK (Agent Development Kit)**: Nutrition verification agent with A2A communication
-- **MCP (Model Context Protocol)**: External tool integrations
-- **A2A Protocol**: Inter-framework agent communication
+- CrewAI (primary orchestration framework)  
+- ADK (nutrition validation agent)  
+- MCP (external tool integration)  
+- A2A protocol (agent communication)  
+
+Multi-agent systems like this improve performance by assigning specialized roles to different agents, enabling better handling of complex tasks :contentReference[oaicite:1]{index=1}.
+
+---
 
 ### Agent System
 
@@ -56,42 +106,69 @@ This project implements a hybrid multi-agent architecture using:
 └─────────────────────────────────────────────────────────┘
 ```
 
-## 📋 Requirements Met
+## API Design
 
-### 1. Context Sharing ✅
-- Intermediate outputs flow between agents via state management
-- Pantry analysis → Recipe creation → Meal planning → Shopping list
+- POST /a2a/invoke → Trigger workflow  
+- GET /.well-known/agent-card.json → Agent metadata  
 
-### 2. Tool Integration using MCP ✅
-- **Nutrition API Tool**: Fetches nutritional data via MCP
-- **Recipe Search Tool**: Searches external recipe databases
-- Custom tools for pantry management
+Supports **agent-to-agent communication** and modular integration.
 
-### 3. Structured Output using Pydantic ✅
-- **Type-Safe Outputs**: All tasks return validated Pydantic models
-- `PantryAnalysis`: Structured pantry inventory with coverage percentage
-- `Recipe`: Detailed recipe with nutrition info and instructions
-- `MealPlan`: Complete weekly meal schedule with adherence tracking
-- `ShoppingList`: Categorized shopping items with pricing
-- `NutritionValidationResult`: Validation results with compliance scores
-- **Dual Format**: JSON (structured data) + Markdown (human-readable)
-- **Programmatic Access**: Easy data manipulation and API integration
+---
 
-### 4. Task Monitoring & Logging using Callbacks ✅
-- Step-by-step task monitoring
-- Execution flow tracking
-- Error handling and transparency
+## Tech Stack
 
-### 5. Agent-to-Agent Communication using A2A ✅
-- CrewAI agents communicate with ADK nutrition validator
-- Cross-framework interoperability demonstrated
+- Python  
+- FastAPI  
+- CrewAI  
+- ADK (Agent Development Kit)  
+- LLM APIs (Gemini / OpenAI)  
+- Prompt Engineering  
+- REST APIs  
 
-### 6. Primary Frameworks: CrewAI and ADK ✅
-- CrewAI handles main meal planning workflow
-- ADK provides specialized nutrition validation
-- Both frameworks integrated seamlessly
+---
 
-## 🚀 Installation
+## Example Use Case
+
+Input:  
+Rice, Tomato, Onion, Eggs  
+
+Output:  
+- Generated recipes  
+- Meal plan  
+- Nutritional validation  
+- Shopping list  
+
+---
+
+## Product Thinking
+
+This system is designed as a **product-oriented AI application**:
+
+- Automates decision-making workflows  
+- Reduces inefficiencies in meal planning  
+- Uses modular architecture for scalability  
+- Enables API-based integration  
+
+---
+
+## Future Improvements
+
+- Add analytics layer using SQL:
+  - Track user inputs  
+  - Identify common ingredients  
+  - Analyze usage patterns  
+
+- Integrate Mixpanel for user behavior tracking  
+
+- Improve recommendations using:
+  - Feedback loops  
+  - Ranking models  
+
+- Deploy as a scalable SaaS product  
+
+---
+
+## Installation
 
 ### Prerequisites
 - Python 3.10 or higher
@@ -130,7 +207,7 @@ RECIPE_API_KEY=your_recipe_api_key
 DEFAULT_LLM=gpt-4o  # or gemini/gemini-2.0-flash-exp
 ```
 
-## 📖 Usage
+## Usage
 
 ### Basic Usage
 
@@ -174,7 +251,7 @@ python main.py --profile profiles/keto.json
 python main.py --verbose
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 diet-meal-planner/
@@ -224,7 +301,7 @@ diet-meal-planner/
     └── test_integration.py
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ### User Profile
 
@@ -255,7 +332,7 @@ Edit `profiles/default.json` to customize your profile:
 }
 ```
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run all tests
@@ -283,7 +360,7 @@ python example_structured_outputs.py 3  # Programmatic access
 python example_structured_outputs.py 6  # Pretty printing
 ```
 
-## 📊 Working with Structured Outputs
+## Working with Structured Outputs
 
 The system returns validated Pydantic models for programmatic access:
 
@@ -311,9 +388,7 @@ for name, output in outputs.items():
         ]
 ```
 
-**See `STRUCTURED_OUTPUT_GUIDE.md` for complete documentation.**
-
-## 📊 Monitoring & Logging
+## Monitoring & Logging
 
 The system provides comprehensive monitoring through:
 
@@ -324,14 +399,14 @@ The system provides comprehensive monitoring through:
 
 View logs in `logs/agent_execution.log`
 
-## 🔐 Security Considerations
+## Security Considerations
 
-- Store API keys securely in `.env` (never commit)
+- Store API keys securely in `.env` 
 - MCP servers validate all inputs
 - Sanitize user-provided data
 - Follow MCP security best practices
 
-## 🤝 Contributing
+## Contributing
 
 Contributions welcome! Please:
 1. Fork the repository
@@ -339,23 +414,13 @@ Contributions welcome! Please:
 3. Add tests for new features
 4. Submit a pull request
 
-## 📝 License
+## References
 
-MIT License - See LICENSE file for details
-
-## 🙏 Acknowledgments
-
-- CrewAI Framework: https://github.com/joaomdmoura/crewAI
-- Google ADK: https://github.com/google/genai-agent-dev-kit
+- CrewAI Framework: [https://github.com/joaomdmoura/crewAI](https://docs.crewai.com/)
+- Google ADK: [https://github.com/google/genai-agent-dev-kit](https://adk.dev/get-started/about/)
 - Model Context Protocol: https://modelcontextprotocol.io/
 
-## 📞 Support
+## Author
 
-For issues or questions:
-- Open an issue on GitHub
-- Check documentation in `docs/`
-- Review examples in `examples/`
-
----
-
-**Built with ❤️ for the Generative AI Agents Course**
+Akshay Korrapati 
+GitHub: https://github.com/Akshayx64

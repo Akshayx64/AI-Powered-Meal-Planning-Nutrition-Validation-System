@@ -81,30 +81,8 @@ Multi-agent systems like this improve performance by assigning specialized roles
 
 ### Agent System
 
-```
-┌─────────────────────────────────────────────────────────┐
-│              CrewAI Meal Planning Crew                  │
-├─────────────────────────────────────────────────────────┤
-│  1. Pantry Analyzer Agent                               │
-│     └─> Analyzes available ingredients                  │
-│                                                          │
-│  2. Recipe Creator Agent                                 │
-│     └─> Generates personalized recipes                  │
-│                                                          │
-│  3. Meal Plan Coordinator Agent                          │
-│     └─> Organizes weekly meal schedule                  │
-│                                                          │
-│  4. Shopping List Generator Agent                        │
-│     └─> Creates categorized shopping list               │
-└─────────────────────────────────────────────────────────┘
-                       ↓ (A2A Communication)
-┌─────────────────────────────────────────────────────────┐
-│          ADK Nutrition Verification Agent                │
-├─────────────────────────────────────────────────────────┤
-│  5. Nutrition Validator Agent (ADK)                      │
-│     └─> Validates nutritional compliance                │
-└─────────────────────────────────────────────────────────┘
-```
+<img width="824" height="1152" alt="workflow" src="https://github.com/user-attachments/assets/5332d279-fefd-47ae-894c-d0847ae34acc" />
+
 
 ## API Design
 
